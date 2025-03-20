@@ -9,4 +9,9 @@ class ControlTraficoAgent(Agent):
 
     def recibir_mensaje(self, mensaje):
         print(f"📩 Mensaje recibido: {mensaje}")
-        return "Puedes avanzar" if "moverme" in mensaje else "Espera"
+        
+        # Simula respuesta según la consulta del vehículo
+        if "moverme" in mensaje:
+            return "Puedes avanzar"
+        else:
+            return "Espera"
