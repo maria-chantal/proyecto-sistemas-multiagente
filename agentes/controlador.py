@@ -12,6 +12,6 @@ class ControlTraficoAgent(Agent):
         
         # Simula respuesta según la consulta del vehículo
         if "moverme" in mensaje:
-            return "Puedes avanzar"
+            return 1
         else:
-            return "Espera"
+            return 0
