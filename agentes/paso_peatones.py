@@ -11,6 +11,6 @@ class PasoPeatonesAgent(Agent):
     def act(self):
         """Activa o desactiva el cruce de peatones aleatoriamente."""
         if random.random() < 0.3:  # 30% de probabilidad de activación
-            self.estado = 1
+            self.estado = 1 # Peatón cruzando
         else:
-            self.estado = 0
+            self.estado = 0 # Paso de peatones vacío

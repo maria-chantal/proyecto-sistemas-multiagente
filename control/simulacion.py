@@ -10,6 +10,7 @@ class Simulacion:
         self.mapa.inicializar_mapa()
         self.control_trafico = ControlTraficoAgent() 
         self.num_vehiculos_gen = num_vehiculos
+        self.tiempos_parados = []
 
         # Crear lista de vehículos
         self.vehiculos = []
@@ -36,7 +37,7 @@ class Simulacion:
     def ejecutar(self, iteraciones):
         """Corre la simulación iteración por iteración."""
         for i in range(iteraciones):
-            sleep(0.5)
+            sleep(1)
             print(f"\n--- Iteración {i+1} ---")
 
             # 1️⃣ 🔹 Asegurar que los semáforos cambian de estado
@@ -59,6 +60,10 @@ class Simulacion:
             for vehiculo in self.vehiculos:
                 data = vehiculo.mover(self.mapa)
                 if data == 404:
+                    self.tiempos_parados.append({
+                                                    "id":vehiculo.id,
+                                                    "tiempo_parado":vehiculo.tiempo_parado
+                                                 })
                     self.vehiculos.remove(vehiculo)
                     self.crear_vehiculo()
 
@@ -66,9 +71,25 @@ class Simulacion:
             # 3️⃣ 🔹 Mostrar el estado del mapa y semáforos
             self.mapa.mostrar_mapa()
 
-            
-                
-
+        for vehiculo in self.vehiculos:
+            self.tiempos_parados.append({
+                                        "id":vehiculo.id,
+                                        "tiempo_parado":vehiculo.tiempo_parado
+                                        })
+        max={"id":0,"tiempo_parado":0}
+        min={"id":0,"tiempo_parado":10000000}
+        mean=0
+        for i in self.tiempos_parados:
+            if i["tiempo_parado"] > max["tiempo_parado"]:
+                max=i
+            if i["tiempo_parado"] < min["tiempo_parado"]:
+                min=i
+            mean+=i["tiempo_parado"]
+        mean=mean/len(self.tiempos_parados)
+        print("Estadisticas: Se han generado un total de " +str(self.num_vehiculos_gen) + " coches")
+        print("Estadisticas: Maximo Tiempo parado coche numero " + str(max["id"]) + " ha estado parado " + str(max["tiempo_parado"]) + " segundos")
+        print("Estadisticas: Minimo Tiempo coche numero " + str(min["id"]) + " ha estado parado " + str(min["tiempo_parado"]) + " segundos")
+        print("Estadisticas: Media Tiempo parado " +str(mean) + " segundos")
 # Ejecutar la simulación
 if __name__ == "__main__":
     simulacion = Simulacion(17, 35, 10)

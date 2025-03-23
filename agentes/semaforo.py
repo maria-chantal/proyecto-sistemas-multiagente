@@ -17,10 +17,10 @@ class SemaforoAgent:
         """Cambia el estado del semáforo después del tiempo especificado."""
         self.tiempo_actual += 1
         if self.estado == 0 and self.tiempo_actual >= self.tiempo_rojo:
-            self.estado = 1
+            self.estado = 1 # Semáforo verde
             self.tiempo_actual = 0  # Reinicia el contador
         elif self.estado == 1 and self.tiempo_actual >= self.tiempo_verde:
-            self.estado = 0
+            self.estado = 0 # Semáforo rojo
             self.tiempo_actual = 0  # Reinicia el contador
 
 

@@ -81,10 +81,10 @@ class Mapa:
                     if celda.ocupantes:
                         print(f"🚗{celda.ocupantes[0].id}", end=" ")  # Muestra el ID del vehículo
                     elif hasattr(celda, "semaforo") and celda.semaforo:   
-                        estado_semaforo = "🟥 " if celda.semaforo.estado == 0 else "🟩 "
+                        estado_semaforo = "🟥 " if celda.semaforo.estado == 0 else "🟩 " # Estado del semáforo
                         print(estado_semaforo, end=" ") 
                     elif hasattr(celda, "paso") and celda.paso:   
-                        estado_paso = "🏁 " if celda.paso.estado == 0 else "🚶 "
+                        estado_paso = "🏁 " if celda.paso.estado == 0 else "🚶 " # Estado del paso de peatones
                         print(estado_paso, end=" ")
                     elif celda.tipo == "interseccion":
                         print("🔲 ", end=" ")  # Intersección 
@@ -98,12 +98,9 @@ class Mapa:
                 elif celda.tipo == "parking":
                     print("🔼 ", end=" ")  # Plaza vacia
                 else:
-                    print("⬛ ", end=" ")  # Otros elementos
+                    print("⬛ ", end=" ")  # Resto del mapa
             print()  # Nueva línea
         
-
-
-
 
 
 

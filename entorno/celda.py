@@ -3,6 +3,6 @@ class Celda:
         self.tipo = tipo  # "calle", "intersección"
         self.sentido = sentido
         self.ocupantes = []  # Lista de vehículos en la celda
-        self.semaforo = None
+        self.semaforo = None 
         self.paso = None
-        self.opciones=[]
+        self.opciones=[] # Opciones de los coches para girar

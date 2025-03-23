@@ -8,17 +8,19 @@ class VehiculoAgent(Agent):
             name=f"Vehiculo_{id}",
             system_message="Eres un vehículo que navega por una ciudad."
         )
-        entradas_posibles=[(0,1),(0,2),(16,32),(16,33), (2,34),(8,0),(14,0)]
+        entradas_posibles=[(0,1),(0,2),(16,32),(16,33), (2,34),(8,0),(14,0)] # Entradas al mapa
 
-        self.id = id
-        self.ubicacion = entradas_posibles[random.randint(0,6)]
+        self.id = id # ID de los coches
+        self.ubicacion = entradas_posibles[random.randint(0,6)] 
         self.destino = destino
-        self.p_aparcar_parking = 0.7
-        self.plazas_parking = 10
-        self.p_aparcar = 0.1
+        self.p_aparcar_parking = 0.7 # Probabilidad entrar al parking
+        self.plazas_parking = 10 # Máximo plazas de parking
+        self.p_aparcar = 0.1 # Probabilidad aparcar en la calle
         self.aparcado = 0
         self.ubicacion_desaparcar = None
         self.time_out_aparcar = 0
+
+        self.tiempo_parado = 0
 
     def act(self, entorno, control_trafico):
         """Consulta al semáforo y decide si moverse."""
@@ -130,6 +132,7 @@ class VehiculoAgent(Agent):
         if celda_destino != None:
             if celda_destino.semaforo!= None:
                 if celda_destino.semaforo.estado == 0:
+                    self.tiempo_parado += 1
                     print(f"🚗 Vehículo {self.id} espera en {self.ubicacion}, semáforo rojo.")
                     return  # No se mueve si el semáforo está en rojo
                 else:
@@ -142,6 +145,7 @@ class VehiculoAgent(Agent):
                     return  # Salir del bucle al encontrar un movimiento válido
             if celda_destino.paso!= None:
                 if celda_destino.paso.estado == 1:
+                    self.tiempo_parado += 1
                     print(f"🚗 Vehículo {self.id} espera en {self.ubicacion}, por peatón.")
                     return  # No se mueve si el semáforo está en rojo
                 else:
@@ -163,6 +167,7 @@ class VehiculoAgent(Agent):
             entorno.obtener_celda(x, y).ocupantes.remove(self)  # Quitar de la celda actual
             print(f"🚗 Vehículo {self.id} ha salido.")  # Si no puede moverse
             return 404   
+        self.tiempo_parado += 1
         print(f"🚗 Vehículo {self.id} está bloqueado en {self.ubicacion}")  # Si no puede moverse
 
 
