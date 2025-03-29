@@ -3,7 +3,7 @@ import random
 
 
 class VehiculoAgent(Agent):
-    def __init__(self, id, destino):
+    def __init__(self, id):
         super().__init__(
             name=f"Vehiculo_{id}",
             system_message="Eres un vehículo que navega por una ciudad."
@@ -12,7 +12,7 @@ class VehiculoAgent(Agent):
 
         self.id = id # ID de los coches
         self.ubicacion = entradas_posibles[random.randint(0,6)] 
-        self.destino = destino
+
         self.p_aparcar_parking = 0.7 # Probabilidad entrar al parking
         self.plazas_parking = 10 # Máximo plazas de parking
         self.p_aparcar = 0.1 # Probabilidad aparcar en la calle
@@ -22,12 +22,10 @@ class VehiculoAgent(Agent):
 
         self.tiempo_parado = 0
 
-    def act(self, entorno, control_trafico):
+    def act(self, entorno):
         """Consulta al semáforo y decide si moverse."""
-        mensaje = f"Estoy en {self.ubicacion}. ¿Puedo moverme?"
-        respuesta = control_trafico.recibir_mensaje(mensaje)  # ✅ Ahora usa el agente de control
-
-        print(f"🚗 Vehículo {self.id} recibe: {respuesta}")
+        mensaje = f"Estoy en {self.ubicacion}. ¿Puedo moverme?" 
+        print(f"🚗 Vehículo {self.id} recibe: {mensaje}")
 
         self.mover(entorno)
 

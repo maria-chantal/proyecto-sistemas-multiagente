@@ -1,7 +1,6 @@
 from autogen import Agent
 
 class SemaforoAgent:
-    """Agente que controla un semáforo en una intersección."""
     semaforos_globales = {}
     def __init__(self, ubicacion, tiempo_rojo, tiempo_verde):
         self.id = 1
