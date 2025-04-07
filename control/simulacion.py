@@ -2,6 +2,23 @@ from time import sleep
 from entorno.mapa import Mapa
 from agentes.vehiculo import VehiculoAgent
 from agentes.semaforo import SemaforoAgent
+import sys
+
+# Clase para guardar un txt con los logs
+class Logger:
+    def __init__(self, archivo_log):
+        self.terminal = sys.stdout
+        self.log = open(archivo_log, "w", encoding="utf-8")
+
+    def write(self, mensaje):
+        self.terminal.write(mensaje)
+        self.log.write(mensaje)
+
+    def flush(self):
+        self.terminal.flush()
+        self.log.flush()
+
+sys.stdout = Logger("logs_simulacion.txt")
 
 class Simulacion:
     def __init__(self, filas, columnas, num_vehiculos):
@@ -19,7 +36,7 @@ class Simulacion:
             self.vehiculos.append(vehiculo)
 
         for vehiculo in self.vehiculos:
-            print(f"✅ Vehículo {vehiculo.id} en {vehiculo.ubicacion}")
+            print(f"Vehículo {vehiculo.id} en {vehiculo.ubicacion}")
 
         self.mapa.mostrar_mapa()
 
@@ -30,9 +47,9 @@ class Simulacion:
         self.vehiculos.append(vehiculo)
 
     def ejecutar(self, iteraciones):
-        """Corre la simulación iteración por iteración."""
+        """Ejecuta la simulación iteración por iteración."""
         for i in range(iteraciones):
-            sleep(1)
+            sleep(1) # 1 segundo entre cada iteración
             print(f"\n--- Iteración {i+1} ---")
 
             # Asegurar que los semáforos cambian de estado
@@ -49,12 +66,12 @@ class Simulacion:
                     celda = self.mapa.obtener_celda(f,c)
                     if celda.paso:
                         celda.paso.act()  # Cambia de rojo a verde y viceversa
-                        print(f"🚦 paso en {celda.paso.ubicacion} está {'🟥' if celda.paso.estado == 0 else '🟩'}")
+                        print(f"🏁 paso de peatones en {celda.paso.ubicacion} está {'🚶' if celda.paso.estado == 0 else '🏁'}")
 
             # Los vehículos intentan moverse
             for vehiculo in self.vehiculos:
                 data = vehiculo.mover(self.mapa)
-                if data == 404:
+                if data == 404: 
                     self.tiempos_parados.append({
                                                     "id":vehiculo.id,
                                                     "tiempo_parado":vehiculo.tiempo_parado
@@ -66,6 +83,7 @@ class Simulacion:
             # Mostrar el estado del mapa y semáforos
             self.mapa.mostrar_mapa()
 
+        ''' Lectura de estadísticas de tiempos parados'''
         for vehiculo in self.vehiculos:
             self.tiempos_parados.append({
                                         "id":vehiculo.id,
@@ -89,5 +107,5 @@ class Simulacion:
 
 # Ejecutar la simulación
 if __name__ == "__main__":
-    simulacion = Simulacion(17, 35, 10)
-    simulacion.ejecutar(50)
+    simulacion = Simulacion(17, 35, 15) # se crean 17 filas, 35 columnas y 15 coches al inicio
+    simulacion.ejecutar(50) # 50 segundos de simulación

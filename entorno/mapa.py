@@ -4,7 +4,7 @@ from agentes.vehiculo import VehiculoAgent
 from agentes.paso_peatones import *
 
 class Mapa:
-    """Define la cuadrícula donde se moverán los agentes."""
+    """Cuadrícula donde se moverán los agentes."""
     def __init__(self, filas, columnas):
         self.filas = filas
         self.columnas = columnas
@@ -50,15 +50,17 @@ class Mapa:
             else:
                 self.matriz[14][i] = Celda("calle", sentido=2)  # Calle horizontal sentido 2 derecha
 
-        
+        # Ubicación de los semáforos
         ubicacion_semaforos=[(1,1),(1,2),(13,1),(13,2),(14,24),(2,26),(9,32),(9,33)] 
         for i in ubicacion_semaforos:
             self.matriz[i[0]][i[1]].semaforo = SemaforoAgent(i, 5, 5)
         
+        # Ubicación de los pasos de peatones
         ubicacion_pasos=[(2,13),(14,20),(7,1),(7,2),(3,32),(3,33)] 
         for i in ubicacion_pasos:
             self.matriz[i[0]][i[1]].paso = PasoPeatonesAgent(i)
 
+        # Ubicación del parking
         ubicacion_parking = [(7,17),(7,18)]
         for i in ubicacion_parking:
             self.matriz[i[0]][i[1]] = Celda("parking")
@@ -99,7 +101,7 @@ class Mapa:
                     print("🔼 ", end=" ")  # Plaza vacia
                 else:
                     print("⬛ ", end=" ")  # Resto del mapa
-            print()  # Nueva línea
+            print()  
         
 
 
